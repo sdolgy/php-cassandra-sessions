@@ -3,5 +3,27 @@ PHP Cassandra Sessions
 Sasha Dolgy <sasha@dolgy.com>
 http://twitter.com/sdolgy
 
-- 1.0	- Initial
+The following script will work to store ALL of your PHP session data if you implement the following
+prerequisites:  
 
+	1.  Ensure PHPCassa is working.
+		- You can obtain it from here:  https://github.com/thobbs/phpcassa
+		- Documentation for PHPCassa:  http://thobbs.github.com/phpcassa/
+		If it's your first time, follow the tutorial:  http://thobbs.github.com/phpcassa/tutorial.html
+
+	2.  Configure a column family in cassandra for the session data:
+
+		create column family cf_sessions;
+
+Each session is stored against the row 'site_name'.  If your site is example.com, this will be the row key.  Each column will be the PHPSESSID and the value
+of that column will be the session data.  'session_expiration' needs to be set to ensure the garbage collection is done properly.  this is done by cassandra
+when the column expires and is not done by PHP.  'session_expiration' is in seconds.  
+
+$GLOBALS used:
+
+	cf_sessions 
+	site_name 
+	session_expiration
+
+Enjoy
+-sd
